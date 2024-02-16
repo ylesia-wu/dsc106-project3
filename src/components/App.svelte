@@ -4,7 +4,7 @@
     import * as d3 from 'd3';
 
     // <!-- load csv data -->
-    // let data = [];
+
     let state = [];
     let numDrivers = [];
     let speeding = [];
@@ -17,7 +17,7 @@
         const csv = await res.text();
 
         await d3.csvParse(csv, (d, i, columns) => {
-            // for (let i = 1; i < 2; ++i) {
+
                 // state.push({
                 //     state: d['State'],
                 //     numDrivers: d['Number of drivers involved in fatal collisions per billion miles'],
@@ -32,9 +32,9 @@
                 alcohol.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired']});
                 notDistracted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted']});
                 noPrevious.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents']})
-            // }
+
         });
-        // data = data;
+
         state = state;
         numDrivers = numDrivers;
         speeding = speeding;
@@ -43,6 +43,7 @@
         noPrevious = noPrevious;
     });
 
+    let currentData = numDrivers;
 
     let xScale;
     let yScale;
@@ -52,7 +53,7 @@
     const width = 840;
     const height = 600;
 
-    // let currentData = data.map(d => ({state: d.state, value: d.numDrivers}));
+
 
     // Set up scales on component mount
     // onMount(() => {
@@ -63,32 +64,26 @@
                 .padding(0.1);
 
     $: yScale = d3.scaleLinear()
-                .domain([0, d3.max(speeding, (d) => d.value)])
+                .domain([0, d3.max(currentData, (d) => d.value)])
                 .range([0, height]); // Adjust the range as needed
     // });
 
-    // function update(selectedVar) {
-        
-    //     currentVar = selectedVar;
+    function update(selectedData) {
+        currentData = selectedData;
 
-    //     // currentData = data.map(d => ({state: d.state, value: d.selectedVar}));
-
-    //     // yScale = scaleLinear()
-    //     //         .domain([0, d3.max(currentData, d => d.value)])
-    //     //         .range([400, 0]);
-
-    // }
+    }
 
 </script>
 
 <main>
 
     <!-- Add 5 buttons -->
-    <!-- <button on:click={() => update('numDrivers')}>Total Number</button>
-    <button on:click={() => update('speeding')}>Speeding</button>
-    <button on:click={() => update('alcohol')}>Alcohol</button>
-    <button on:click={() => update('notDistrcted')}>Not Distracted</button>
-    <button on:click={() => update('noPrevious')}>No Previous Accident</button> -->
+    <button on:click={() => update(numDrivers)}>Total Number</button>
+    <!-- <button on:click={() => function (d) {currentData = numDrivers}}>Total Number</button> -->
+    <button on:click={() => update(speeding)}>Speeding</button>
+    <button on:click={() => update(alcohol)}>Alcohol</button>
+    <button on:click={() => update(notDistracted)}>Not Distracted</button>
+    <button on:click={() => update(noPrevious)}>No Previous Accident</button>
 
     <svg {width} {height}>
         <!-- x axis -->
@@ -119,8 +114,7 @@
         
         <!-- bars -->
         <!-- <g class="bars"> -->
-			{#each speeding as data}
-                {console.log('Inside for loop:', numDrivers)} 
+			{#each currentData as data}
 				<rect	
                     x={xScale(data.state)}
                     y={height - yScale(data.value)}
