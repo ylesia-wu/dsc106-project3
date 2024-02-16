@@ -2,7 +2,7 @@
     import App from '../components/App.svelte';
 </script>
 
-
+<App />
 
 
 <!-- <h1>Welcome to SvelteKit</h1>
