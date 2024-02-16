@@ -1,5 +1,4 @@
 <script>
-d3.
 
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
@@ -30,56 +29,34 @@ d3.
     let yScale;
 
     // set the dimensions and margins of the graph
-    const margin = {top: 30, right: 30, bottom: 30, left: 30};
-    const width = 400;
-    const height = 400;
+    // const margin = {top: 30, right: 30, bottom: 30, left: 30};
+    // const width = 400;
+    // const height = 400;
 
-    let currentData = data.map(d => ({state: d.state, value: d.numDrivers}));
+    // let currentData = data.map(d => ({state: d.state, value: d.numDrivers}));
 
     // Set up scales on component mount
-    onMount(() => {
-        // Initialize scales
-        xScale = scaleBand()
-        .domain(currentData.map(d => d.state))
-        .range([0, 400]) // Adjust the range as needed
-        .padding(0.1);
+    // onMount(() => {
+    //     // Initialize scales
+    //     xScale = scaleBand()
+    //     .domain(currentData.map(d => d.state))
+    //     .range([0, 400]) // Adjust the range as needed
+    //     .padding(0.1);
 
-        yScale = scaleLinear()
-        .domain([0, d3.max(currentData, d => d.value)])
-        .range([400, 0]); // Adjust the range as needed
-    });
-
-    // // append the svg object to the body of the page
-    // let svg = d3.select("#my_dataviz")
-    //             .append("svg")
-    //                 .attr("width", width + margin.left + margin.right)
-    //                 .attr("height", height + margin.top + margin.bottom)
-    //             .append("g")
-    //                 .attr("transform",
-    //                     "translate(" + margin.left + "," + margin.top + ")");
-
-    // // Initialize the X axis
-    // let x = d3.scaleBand()
-    //           .range([ 0, width ])
-    //           .padding(0.2);
-    // let xAxis = svg.append("g")
-    //                .attr("transform", "translate(0," + height + ")")
-
-    // // Initialize the Y axis
-    // let y = d3.scaleLinear()
-    //           .range([ height, 0]);
-    // let yAxis = svg.append("g")
-    //                .attr("class", "myYaxis")
+    //     yScale = scaleLinear()
+    //     .domain([0, d3.max(currentData, d => d.value)])
+    //     .range([400, 0]); // Adjust the range as needed
+    // });
 
     function update(selectedVar) {
         
         currentVar = selectedVar;
 
-        currentData = data.map(d => ({state: d.state, value: d.selectedVar}));
+        // currentData = data.map(d => ({state: d.state, value: d.selectedVar}));
 
-        yScale = scaleLinear()
-        .domain([0, d3.max(currentData, d => d.value)])
-        .range([400, 0]);
+        // yScale = scaleLinear()
+        //         .domain([0, d3.max(currentData, d => d.value)])
+        //         .range([400, 0]);
 
     }
 
@@ -109,24 +86,28 @@ d3.
 			{/each}
 		</g>
 
-        <!-- y axis -->
+        y axis
 		<g class="axis y-axis">
-			{#each currentData as d}
-				
-			{/each}
+			<line x1="0" y1="400" x2="0" y2="0" stroke="black" />
+            {#each yScale.ticks() as tick}
+                <g transform="translate(0, {yScale(tick)})">
+                    <line x1="-5" y1="0" x2="0" y2="0" stroke="black" />
+                    <text x="-10" y="0" text-anchor="end" alignment-baseline="middle">{tick}</text>
+                </g>
+            {/each}
 		</g>
 
-        <!-- bars -->
+        <!-- bars
         <g class="bars">
 			{#each currentData as state, value}
 				<rect
-					x={scaleBand(state)}
+					x={xScale(state)}
 					y={yScale(value)}
 					width={8}
 					height={yScale(0) - yScale(value)}
 				/>
 			{/each}
-		</g>
+		</g> -->
     </svg>
 
     
