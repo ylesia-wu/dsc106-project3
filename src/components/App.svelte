@@ -35,15 +35,14 @@
             // }
         });
         // data = data;
-        // state = state;
-        // numDrivers = numDrivers;
-        // speeding = speeding;
-        // alcohol = alcohol;
-        // notDistracted = notDistracted;
-        // noPrevious = noPrevious;
+        state = state;
+        numDrivers = numDrivers;
+        speeding = speeding;
+        alcohol = alcohol;
+        notDistracted = notDistracted;
+        noPrevious = noPrevious;
     });
 
-    // console.log(noPrevious);
 
     let xScale;
     let yScale;
@@ -64,8 +63,8 @@
                 .padding(0.1);
 
     $: yScale = d3.scaleLinear()
-                .domain([0, d3.max(numDrivers, (d) => d.value)])
-                .range([height, 0]); // Adjust the range as needed
+                .domain([0, d3.max(speeding, (d) => d.value)])
+                .range([0, height]); // Adjust the range as needed
     // });
 
     // function update(selectedVar) {
@@ -116,15 +115,15 @@
                 </g>
             {/each}
 		</g> -->
-
+        <!-- {console.log('Inside for loop:', numDrivers)} -->
         
-
         <!-- bars -->
         <!-- <g class="bars"> -->
-			{#each numDrivers as data, i}
+			{#each speeding as data}
+                {console.log('Inside for loop:', numDrivers)} 
 				<rect	
                     x={xScale(data.state)}
-                    y={0}
+                    y={height - yScale(data.value)}
                     width={xScale.bandwidth()}
                     height={yScale(data.value)}
 				/>
@@ -161,9 +160,9 @@
 
 </main>
 
-<style>
+<!-- <style>
     rect {
        fill: blue;  
     }
-</style>
+</style> -->
 
