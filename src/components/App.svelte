@@ -49,8 +49,8 @@
     let yScale;
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 20, bottom: 20, left: 20};
-    const width = 840;
+    const margin = {top: 60, right: 20, bottom: 120, left: 60};
+    const width = 1300;
     const height = 600;
 
 
@@ -59,18 +59,34 @@
     // onMount(() => {
         // Initialize scales
     $: xScale = d3.scaleBand()
-                .domain(state.map((d) => d))
-                .range([0, width]) // Adjust the range as needed
+                .domain(currentData.map(d => d.state))
+                .range([margin.left, width - margin.right]) // Adjust the range as needed
                 .padding(0.1);
 
     $: yScale = d3.scaleLinear()
                 .domain([0, d3.max(currentData, (d) => d.value)])
-                .range([0, height]); // Adjust the range as needed
+                .range([height - margin.bottom, margin.top]); // Adjust the range as needed
     // });
 
     function update(selectedData) {
         currentData = selectedData;
 
+    }
+
+    let xAxis;
+    let yAxis;
+
+    $: {
+        d3.select(yAxis).call(d3.axisLeft(yScale));
+        
+        d3.select(xAxis)
+            .call(d3.axisBottom(xScale))
+            .selectAll('.tick > text')
+            .attr('y', 0)
+            .attr('dy', '0.35em')
+            .attr('dx', '-1em')
+            .attr('text-anchor', 'end')
+            .attr('transform', 'rotate(-90)');
     }
 
 </script>
@@ -86,16 +102,19 @@
     <button on:click={() => update(noPrevious)}>No Previous Accident</button>
 
     <svg {width} {height}>
+    
+
         <!-- x axis -->
 		<!-- <g class="axis x-axis">
-			{#each currentData as d}
+			{#each currentData as data}
 				<text
-                    x={xScale(d.state) + xScale.bandwidth() / 2}
-                    y="15"
+                    x={xScale(data.state)}
+                    y={height}
                     text-anchor="middle"
-                    font-size="12"
+                    rotate="-90"
+                    font-size="10"
                 >
-                    {d.state}
+                    {data.state}
                 </text>
 			{/each}
 		</g>  -->
@@ -123,6 +142,13 @@
 				/>
 			{/each}
 		<!-- </g> -->
+
+        <g transform="translate(0, {height - margin.bottom})"
+        bind:this={xAxis} />
+        
+        <g transform="translate({margin.left}, 0)"
+        bind:this={yAxis} />
+
     </svg>
 
     
