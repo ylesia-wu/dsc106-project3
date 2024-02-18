@@ -26,7 +26,7 @@
                 //     notDistracted: d['Percentage Of Drivers Invovled In Fatal Collisions Who Were Not Distracted'],
                 //     noPrevious: d['Percentage Of Drivers Invovled In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents']
                 // })
-                state.push(d['State']);
+                state.push({state: d['State'], value: 0});
                 numDrivers.push({state: d['State'], value: d['Number of drivers involved in fatal collisions per billion miles']});
                 speeding.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding']})
                 alcohol.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired']});
@@ -34,7 +34,6 @@
                 noPrevious.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents']})
 
         });
-
         state = state;
         numDrivers = numDrivers;
         speeding = speeding;
@@ -43,17 +42,15 @@
         noPrevious = noPrevious;
     });
 
-    let currentData = numDrivers;
+    let currentData = state;
 
     let xScale;
     let yScale;
 
     // set the dimensions and margins of the graph
-    const margin = {top: 60, right: 20, bottom: 120, left: 60};
+    const margin = {top: 60, right: 40, bottom: 120, left: 60};
     const width = 1300;
-    const height = 600;
-
-
+    const height = 680;
 
     // Set up scales on component mount
     // onMount(() => {
@@ -64,13 +61,29 @@
                 .padding(0.1);
 
     $: yScale = d3.scaleLinear()
-                .domain([0, d3.max(currentData, (d) => d.value)])
+                .domain([0, d3.max(currentData, d => d.value)])
                 .range([height - margin.bottom, margin.top]); // Adjust the range as needed
     // });
+
+    let y_label = '';
 
     function update(selectedData) {
         currentData = selectedData;
 
+        if (selectedData === numDrivers) {
+            y_label = 'Number of drivers involved in fatal collisions per billion miles';
+        } else if (selectedData === speeding) {
+            y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)'
+        } else if (selectedData === alcohol) {
+            y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)'
+        } else if (selectedData === notDistracted) {
+            y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)'
+        } else if (selectedData === noPrevious) {
+            y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)'
+        } else {
+            y_label = 'Default Y-Axis Label';
+        }
+        
     }
 
     let xAxis;
@@ -131,14 +144,23 @@
 		</g> -->
         <!-- {console.log('Inside for loop:', numDrivers)} -->
         
+        <g class="x-axis">
+            <text transform={`translate(${width / 2}, ${height - 10})`} text-anchor="middle">US States</text>
+            <!-- You can add tick marks for x-axis if needed -->
+        </g>
+
+        <g class="y-axis">
+            <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
+            <!-- You ca
+
         <!-- bars -->
         <!-- <g class="bars"> -->
 			{#each currentData as data}
 				<rect	
                     x={xScale(data.state)}
-                    y={height - yScale(data.value)}
+                    y={yScale(data.value)}
                     width={xScale.bandwidth()}
-                    height={yScale(data.value)}
+                    height={height - margin.bottom - yScale(data.value)}
 				/>
 			{/each}
 		<!-- </g> -->
