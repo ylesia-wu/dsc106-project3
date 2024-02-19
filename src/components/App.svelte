@@ -60,9 +60,12 @@
                 .range([margin.left, width - margin.right]) // Adjust the range as needed
                 .padding(0.1);
 
-    $: yScale = d3.scaleLinear()
-                .domain([0, d3.max(currentData, d => d.value)])
-                .range([height - margin.bottom, margin.top]); // Adjust the range as needed
+    // $: yScale = d3.scaleLinear()
+    //             // .domain([0, d3.max(currentData, d => d.value)])
+    //             .domain([0, Math.min(25, d3.max(currentData, d => d.value))])
+    //             // .domain([0, 25])
+
+    //             .range([height - margin.bottom, margin.top]); // Adjust the range as needed
     // });
 
     let y_label = '';
@@ -90,6 +93,13 @@
     let yAxis;
 
     $: {
+        yScale = d3.scaleLinear()
+                // .domain([0, d3.max(currentData, d => d.value)])
+            .domain([0, Math.max(25, d3.max(currentData, d => d.value))])
+                // .domain([0, 25])
+
+            .range([height - margin.bottom, margin.top]); // Adjust the range as needed
+        
         d3.select(yAxis).call(d3.axisLeft(yScale));
         
         d3.select(xAxis)
@@ -113,6 +123,7 @@
     <button on:click={() => update(alcohol)}>Alcohol</button>
     <button on:click={() => update(notDistracted)}>Not Distracted</button>
     <button on:click={() => update(noPrevious)}>No Previous Accident</button>
+    <!-- <button on:click={() => update(numDrivers)}>Total Number</button> -->
 
     <svg {width} {height}>
     
