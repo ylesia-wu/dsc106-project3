@@ -258,5 +258,9 @@
         font-family: Arial, sans-serif;
         font-size: 14px;
     }
+
+    .bars {
+        fill: #292e30;
+    }
 </style>
 
