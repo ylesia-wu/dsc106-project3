@@ -11,6 +11,11 @@
     let alcohol = [];
     let notDistracted = [];
     let noPrevious = [];
+    let numDriversSorted = [];
+    let speedingSorted = [];
+    let alcoholSorted = [];
+    let notDistractedSorted = [];
+    let noPreviousSorted = [];
 
     onMount(async () => {
         const res = await fetch('bad-drivers.csv');
@@ -32,6 +37,47 @@
         alcohol = alcohol;
         notDistracted = notDistracted;
         noPrevious = noPrevious;
+
+        const resNumDriversSorted = await fetch('num-driver-sorted.csv');
+        const csvNumDriversSorted = await resNumDriversSorted.text();
+        await d3.csvParse(csvNumDriversSorted, (d, i, columns) => {
+
+                numDriversSorted.push({state: d['State'], value: d['Number of drivers involved in fatal collisions per billion miles']});
+        });
+        numDriversSorted = numDriversSorted;
+        
+        const resSpeedingSorted = await fetch('speeding-sorted.csv');
+        const csvSpeedingSorted = await resSpeedingSorted.text();
+        await d3.csvParse(csvSpeedingSorted, (d, i, columns) => {
+
+            speedingSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding']});
+        });
+        speedingSorted = speedingSorted;
+
+        const resAlcoholSorted = await fetch('alcohol-sorted.csv');
+        const csvAlcoholSorted = await resAlcoholSorted.text();
+        await d3.csvParse(csvAlcoholSorted, (d, i, columns) => {
+
+            alcoholSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired']});
+        });
+        alcoholSorted = alcoholSorted;
+
+        const resNotDistractedSorted = await fetch('not-distracted-sorted.csv');
+        const csvNotDistractedSorted = await resNotDistractedSorted.text();
+        await d3.csvParse(csvNotDistractedSorted, (d, i, columns) => {
+
+            notDistractedSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted']});
+        });
+        notDistractedSorted = notDistractedSorted;
+
+        const resNoPreviousSorted = await fetch('no-previous-sorted.csv');
+        const csvNoPreviousSorted = await resNoPreviousSorted.text();
+        await d3.csvParse(csvNoPreviousSorted, (d, i, columns) => {
+
+            noPreviousSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents']});
+        });
+        noPreviousSorted = noPreviousSorted;
+        
     });
 
     let currentData = state;
@@ -40,42 +86,63 @@
     let yScale;
 
     // set the dimensions and margins of the graph
-    const margin = {top: 60, right: 40, bottom: 120, left: 60};
-    const width = 1300;
-    const height = 680;
-
-    // Set up scales on component mount
-   
-    $: xScale = d3.scaleBand()
-                .domain(currentData.map(d => d.state))
-                .range([margin.left, width - margin.right]) // Adjust the range as needed
-                .padding(0.1);
+    const margin = {top: 100, right: 40, bottom: 100, left: 80};
+    const width = 1250;
+    const height = 650;
 
     let y_label = '';
     let subtitle = '';
 
-    function update(selectedData) {
-        currentData = selectedData;
-
-        if (selectedData === numDrivers) {
-            y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
-            subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
-        } else if (selectedData === speeding) {
-            y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
-            subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
-        } else if (selectedData === alcohol) {
-            y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
-            subtitle = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%) in 50 US States';
-
-        } else if (selectedData === notDistracted) {
-            y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
-            subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
-        } else if (selectedData === noPrevious) {
-            y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)';
-            subtitle = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%) in 50 US States';
-
-        } else {
-            y_label = 'Default Y-Axis Label';
+    function update(selectedData, sort) {
+        // currentData = selectedData;
+        if (sort) {
+            if ((selectedData === numDrivers) | (selectedData === numDriversSorted)) {
+                currentData = numDriversSorted;
+                y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
+                subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
+            } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
+                currentData = speedingSorted;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
+            } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
+                currentData = alcoholSorted;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%) in 50 US States';
+            } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
+                currentData = notDistractedSorted;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+            } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
+                currentData = noPreviousSorted;
+                y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%) in 50 US States';
+            } else {
+                y_label = ' ';
+            }
+        } else if (!sort){
+            if ((selectedData === numDrivers) | (selectedData === numDriversSorted)) {
+                currentData = numDrivers;
+                y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
+                subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
+            } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
+                currentData = speeding;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
+            } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
+                currentData = alcohol;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%) in 50 US States';
+            } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
+                currentData = notDistracted;
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+            } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
+                currentData = noPrevious;
+                y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%) in 50 US States';
+            } else {
+                y_label = ' ';
+            }
         }
         
     }
@@ -84,6 +151,11 @@
     let yAxis;
 
     $: {
+        xScale = d3.scaleBand()
+                .domain(currentData.map(d => d.state))
+                .range([margin.left, width - margin.right]) // Adjust the range as needed
+                .padding(0.1);
+
         yScale = d3.scaleLinear()
             .domain([0, Math.max(25, d3.max(currentData, d => d.value))])
             .range([height - margin.bottom, margin.top]); // Adjust the range as needed
@@ -105,11 +177,11 @@
 <main>
 
     <!-- Add 5 buttons -->
-    <button on:click={() => update(numDrivers)}>Total Number</button>
-    <button on:click={() => update(speeding)}>Speeding</button>
-    <button on:click={() => update(alcohol)}>Alcohol</button>
-    <button on:click={() => update(notDistracted)}>Not Distracted</button>
-    <button on:click={() => update(noPrevious)}>No Previous Accident</button>
+    <button on:click={() => update(numDrivers, false)}>Total Number</button>
+    <button on:click={() => update(speeding, false)}>Speeding</button>
+    <button on:click={() => update(alcohol, false)}>Alcohol</button>
+    <button on:click={() => update(notDistracted, false)}>Not Distracted</button>
+    <button on:click={() => update(noPrevious, false)}>No Previous Accident</button>
 
     <svg {width} {height}>
     
@@ -122,7 +194,6 @@
         <g class="y-axis">
             <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
             
-
         <!-- bars -->
         <g class="bars">
 			{#each currentData as data}
@@ -146,10 +217,11 @@
     
         <!-- Subtitle -->
         <text x="50%" y="60" font-size="16" text-anchor="middle">{subtitle}</text>
-
+        
     </svg>
 
-
+    <button on:click={() => update(currentData, true)}>Sort</button>
+    <button on:click={() => update(currentData, false)}>Undo Sort</button>
 
 </main>
 
