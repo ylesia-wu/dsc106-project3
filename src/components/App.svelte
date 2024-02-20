@@ -94,6 +94,7 @@
 
     let y_label = '';
     let subtitle = '';
+    let avgValue = 15.79;
 
     function update(selectedData, sort) {
         // currentData = selectedData;
@@ -102,22 +103,27 @@
                 currentData = numDriversSorted;
                 y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
                 subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
+                avgValue = 15.79
             } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
                 currentData = speedingSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
+                avgValue = 31.73;
             } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
                 currentData = alcoholSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%) in 50 US States';
+                avgValue = 30.69;
             } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
                 currentData = notDistractedSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+                avgValue = 85.92;
             } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
                 currentData = noPreviousSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%) in 50 US States';
+                avgValue = 88.73;
             } else {
                 y_label = ' ';
             }
@@ -126,22 +132,27 @@
                 currentData = numDrivers;
                 y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
                 subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
+                avgValue = 15.79
             } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
                 currentData = speeding;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
+                avgValue = 31.73;
             } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
                 currentData = alcohol;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%) in 50 US States';
+                avgValue = 30.69;
             } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
                 currentData = notDistracted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+                avgValue = 85.92;
             } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
                 currentData = noPrevious;
                 y_label = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents (%) in 50 US States';
+                avgValue = 88.73;
             } else {
                 y_label = ' ';
             }
@@ -151,19 +162,16 @@
 
     let xAxis;
     let yAxis;
-    let avgValue;
 
     $: {
         xScale = d3.scaleBand()
                 .domain(currentData.map(d => d.state))
-                .range([margin.left, width - margin.right]) // Adjust the range as needed
+                .range([margin.left, width - margin.right])
                 .padding(0.1);
 
         yScale = d3.scaleLinear()
             .domain([0, Math.max(25, d3.max(currentData, d => d.value))])
-            .range([height - margin.bottom, margin.top]); // Adjust the range as needed
-
-        avgValue = 10;
+            .range([height - margin.bottom, margin.top]);
         
         d3.select(yAxis).call(d3.axisLeft(yScale));
         
