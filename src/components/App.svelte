@@ -151,6 +151,7 @@
 
     let xAxis;
     let yAxis;
+    let avgValue;
 
     $: {
         xScale = d3.scaleBand()
@@ -161,6 +162,8 @@
         yScale = d3.scaleLinear()
             .domain([0, Math.max(25, d3.max(currentData, d => d.value))])
             .range([height - margin.bottom, margin.top]); // Adjust the range as needed
+
+        avgValue = 10;
         
         d3.select(yAxis).call(d3.axisLeft(yScale));
         
@@ -187,15 +190,6 @@
 
     <svg {width} {height}>
     
-        
-        <g class="x-axis">
-            <text transform={`translate(${width / 2}, ${height - 10})`} text-anchor="middle">US States</text>
-            <!-- You can add tick marks for x-axis if needed -->
-        </g>
-
-        <g class="y-axis">
-            <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
-            
         <!-- bars -->
         <g class="bars">
 			{#each currentData as data}
@@ -207,7 +201,21 @@
 				/>
 			{/each}
 		</g>
+        
+        <g class="x-axis">
+            <text transform={`translate(${width / 2}, ${height - 10})`} text-anchor="middle">US States</text>
+            <!-- You can add tick marks for x-axis if needed -->
+        </g>
 
+        <g class="y-axis">
+            <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
+            
+            <!-- Draw a line for the average -->
+            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right}" y2="{yScale(avgValue)}" stroke="red" stroke-width="2" />
+            <!-- Add a label for the average -->
+            <text x="{width - margin.right + 10}" y="{yScale(avgValue)}" font-size="12" fill="red">Average: {avgValue}</text>
+        </g> 
+        
         <g transform="translate(0, {height - margin.bottom})"
         bind:this={xAxis} />
         
