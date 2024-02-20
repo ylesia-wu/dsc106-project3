@@ -89,7 +89,7 @@
 
     // set the dimensions and margins of the graph
     const margin = {top: 100, right: 40, bottom: 100, left: 80};
-    const width = 1250;
+    const width = 1260;
     const height = 650;
 
     let y_label = '';
@@ -166,7 +166,7 @@
     $: {
         xScale = d3.scaleBand()
                 .domain(currentData.map(d => d.state))
-                .range([margin.left, width - margin.right])
+                .range([margin.left, width - margin.right - 15])
                 .padding(0.1);
 
         yScale = d3.scaleLinear()
@@ -188,13 +188,14 @@
 </script>
 
 <main>
-
-    <!-- Add 5 buttons -->
-    <button on:click={() => update(numDrivers, false)}>Total Number</button>
-    <button on:click={() => update(speeding, false)}>Speeding</button>
-    <button on:click={() => update(alcohol, false)}>Alcohol</button>
-    <button on:click={() => update(notDistracted, false)}>Not Distracted</button>
-    <button on:click={() => update(noPrevious, false)}>No Previous Accident</button>
+    <div style="position: absolute; top: 10px; left: 10px;">
+        <!-- Add 5 buttons -->
+        <button on:click={() => update(numDrivers, false)}>Total Number</button>
+        <button on:click={() => update(speeding, false)}>Speeding</button>
+        <button on:click={() => update(alcohol, false)}>Alcohol</button>
+        <button on:click={() => update(notDistracted, false)}>Not Distracted</button>
+        <button on:click={() => update(noPrevious, false)}>No Previous Accident</button>
+    </div>
 
     <svg {width} {height}>
     
@@ -210,18 +211,19 @@
 			{/each}
 		</g>
         
-        <g class="x-axis">
-            <text transform={`translate(${width / 2}, ${height - 10})`} text-anchor="middle">US States</text>
+        <g class="axis-title">
+            <text transform={`translate(${width / 2}, ${height})`} text-anchor="middle">US States</text>
             <!-- You can add tick marks for x-axis if needed -->
         </g>
 
-        <g class="y-axis">
+        <g class="axis-title">
             <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
             
             <!-- Draw a line for the average -->
-            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right}" y2="{yScale(avgValue)}" stroke="red" stroke-width="2" />
+            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right - 15}" y2="{yScale(avgValue)}" stroke="red" stroke-width="2" />
             <!-- Add a label for the average -->
-            <text x="{width - margin.right + 10}" y="{yScale(avgValue)}" font-size="12" fill="red">Average: {avgValue}</text>
+            <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="red">Average: {avgValue}</text>
+            <text x="{width - margin.right - 7}" y="{yScale(avgValue) + 15}" font-size="12" fill="red">{avgValue}</text>
         </g> 
         
         <g transform="translate(0, {height - margin.bottom})"
@@ -231,19 +233,30 @@
         bind:this={yAxis} />
 
         <!-- Title -->
-        <text x="50%" y="30" font-size="24" text-anchor="middle">Good Drivers? Bad Drivers?</text>
+        <text x="50%" y="58" font-size="24" text-anchor="middle" class="title">Good Drivers? Bad Drivers?</text>
     
         <!-- Subtitle -->
-        <text x="50%" y="60" font-size="16" text-anchor="middle">{subtitle}</text>
+        <text x="50%" y="78" font-size="16" text-anchor="middle" class="subtitle">{subtitle}</text>
         
     </svg>
 
-    <button on:click={() => update(currentData, true)}>Sort</button>
-    <button on:click={() => update(currentData, false)}>Undo Sort</button>
+    <button style="position: absolute; bottom: 50px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
+    <button style="position: absolute; bottom: 50px; left: 84px;" on:click={() => update(currentData, false)}>Undo Sort</button>
 
 </main>
 
 <style>
-    
+    .title {
+        font-family: Arial, sans-serif;
+    }
+
+    .subtitle {
+        font-family: Arial, sans-serif;
+    }
+
+    .axis-title {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
 </style>
 
