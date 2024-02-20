@@ -78,6 +78,8 @@
         });
         noPreviousSorted = noPreviousSorted;
         
+        update(numDrivers, false);
+        currentData = numDrivers;
     });
 
     let currentData = state;
