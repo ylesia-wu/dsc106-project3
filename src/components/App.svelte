@@ -236,7 +236,7 @@
                         y={yScale(data.value)}
                         width={xScale.bandwidth()}
                         height={height - margin.bottom - yScale(data.value)}
-                        in:fly = {{x: -200, duration: 0, delay: i * 30}}
+                        in:fly = {{x: -200, duration: 0, delay: i}}
                         class:highlighted={highlightedBar === i}
                         on:mouseover={(event) => 
                                         {handleHover(i);
