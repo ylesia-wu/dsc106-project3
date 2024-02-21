@@ -116,8 +116,8 @@
                 avgValue = 30.69;
             } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
                 currentData = notDistractedSorted;
-                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
-                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracted (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracted (%) in 50 US States';
                 avgValue = 85.92;
             } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
                 currentData = noPreviousSorted;
@@ -145,8 +145,8 @@
                 avgValue = 30.69;
             } else if ((selectedData === notDistracted) | (selectedData === notDistractedSorted)) {
                 currentData = notDistracted;
-                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%)';
-                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracte (%) in 50 US States';
+                y_label = 'Drivers Involved In Fatal Collisions Who Were Not Distracted (%)';
+                subtitle = 'Drivers Involved In Fatal Collisions Who Were Not Distracted (%) in 50 US States';
                 avgValue = 85.92;
             } else if ((selectedData === noPrevious) | (selectedData === noPreviousSorted)) {
                 currentData = noPrevious;
@@ -222,7 +222,7 @@
             <!-- Draw a line for the average -->
             <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right - 15}" y2="{yScale(avgValue)}" stroke="red" stroke-width="2" />
             <!-- Add a label for the average -->
-            <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="red">Average: {avgValue}</text>
+            <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="red">Average:</text>
             <text x="{width - margin.right - 7}" y="{yScale(avgValue) + 15}" font-size="12" fill="red">{avgValue}</text>
         </g> 
         
