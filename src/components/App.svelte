@@ -1,6 +1,7 @@
 <script>
 
     import { onMount } from 'svelte';
+    import { fly } from "svelte/transition"
     import * as d3 from 'd3';
 
     // <!-- load csv data -->
@@ -201,12 +202,13 @@
     
         <!-- bars -->
         <g class="bars">
-			{#each currentData as data}
+			{#each currentData as data, i}
 				<rect	
                     x={xScale(data.state)}
                     y={yScale(data.value)}
                     width={xScale.bandwidth()}
                     height={height - margin.bottom - yScale(data.value)}
+                    in:fly = {{x: -200, duration: 1000, delay: i * 50}}
 				/>
 			{/each}
 		</g>
