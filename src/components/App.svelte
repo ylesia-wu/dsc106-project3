@@ -4,8 +4,6 @@
     import { fly } from "svelte/transition"
     import * as d3 from 'd3';
 
-    // <!-- load csv data -->
-
     let state = [];
     let numDrivers = [];
     let speeding = [];
@@ -17,6 +15,8 @@
     let alcoholSorted = [];
     let notDistractedSorted = [];
     let noPreviousSorted = [];
+
+    let svg;
 
     onMount(async () => {
         const res = await fetch('bad-drivers.csv');
@@ -50,7 +50,6 @@
         const resSpeedingSorted = await fetch('speeding-sorted.csv');
         const csvSpeedingSorted = await resSpeedingSorted.text();
         await d3.csvParse(csvSpeedingSorted, (d, i, columns) => {
-
             speedingSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Speeding']});
         });
         speedingSorted = speedingSorted;
@@ -58,7 +57,6 @@
         const resAlcoholSorted = await fetch('alcohol-sorted.csv');
         const csvAlcoholSorted = await resAlcoholSorted.text();
         await d3.csvParse(csvAlcoholSorted, (d, i, columns) => {
-
             alcoholSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired']});
         });
         alcoholSorted = alcoholSorted;
@@ -66,7 +64,6 @@
         const resNotDistractedSorted = await fetch('not-distracted-sorted.csv');
         const csvNotDistractedSorted = await resNotDistractedSorted.text();
         await d3.csvParse(csvNotDistractedSorted, (d, i, columns) => {
-
             notDistractedSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Were Not Distracted']});
         });
         notDistractedSorted = notDistractedSorted;
@@ -74,7 +71,6 @@
         const resNoPreviousSorted = await fetch('no-previous-sorted.csv');
         const csvNoPreviousSorted = await resNoPreviousSorted.text();
         await d3.csvParse(csvNoPreviousSorted, (d, i, columns) => {
-
             noPreviousSorted.push({state: d['State'], value: d['Percentage Of Drivers Involved In Fatal Collisions Who Had Not Been Involved In Any Previous Accidents']});
         });
         noPreviousSorted = noPreviousSorted;
@@ -85,20 +81,20 @@
 
     let currentData = state;
 
-    let xScale;
-    let yScale;
-
     // set the dimensions and margins of the graph
-    const margin = {top: 100, right: 40, bottom: 100, left: 80};
+    const margin = {top: 100, right: 40, bottom: 110, left: 80};
     const width = 1260;
     const height = 650;
 
     let y_label = '';
     let subtitle = '';
     let avgValue = 15.79;
+    let sortClicked = false;
 
     function update(selectedData, sort) {
-        // currentData = selectedData;
+
+        sortClicked = sort;
+
         if (sort) {
             if ((selectedData === numDrivers) | (selectedData === numDriversSorted)) {
                 currentData = numDriversSorted;
@@ -158,9 +154,10 @@
                 y_label = ' ';
             }
         }
-        
     }
 
+    let xScale;
+    let yScale;
     let xAxis;
     let yAxis;
 
@@ -186,6 +183,35 @@
             .attr('transform', 'rotate(-90)');
     }
 
+    let highlightedBar = null;
+
+    function handleHover(i) {
+        highlightedBar = i;
+    }
+
+    function handleLeave() {
+        highlightedBar = null;
+        tooltipPt = null;
+    }
+
+    let tooltipPt = null;
+    let tooltipX = null;
+    let tooltipY = null;
+
+    function onPointerMove(event, i) {
+        console.log('the function ran')
+        tooltipX = xScale(currentData[i].state)
+        tooltipY = yScale(currentData[i].value) + 50
+        tooltipPt = currentData[i]
+        console.log(tooltipPt)
+    }
+
+    function onPointerLeave() {
+        tooltipPt = null;
+        tooltipX = null;
+        tooltipY = null;
+    }
+
 </script>
 
 <main>
@@ -198,19 +224,45 @@
         <button on:click={() => update(noPrevious, false)}>No Previous Accident</button>
     </div>
 
-    <svg {width} {height}>
+    <svg bind:this={svg} {width} {height} viewBox="0 0 {width} {height}"
+    style="width: auto; max-height: 100%;">
     
         <!-- bars -->
         <g class="bars">
 			{#each currentData as data, i}
-				<rect	
-                    x={xScale(data.state)}
-                    y={yScale(data.value)}
-                    width={xScale.bandwidth()}
-                    height={height - margin.bottom - yScale(data.value)}
-                    in:fly = {{x: -200, duration: 1000, delay: i * 50}}
-				/>
-			{/each}
+                {#if sortClicked}
+                    <rect	
+                        x={xScale(data.state)}
+                        y={yScale(data.value)}
+                        width={xScale.bandwidth()}
+                        height={height - margin.bottom - yScale(data.value)}
+                        in:fly = {{x: -200, duration: 0, delay: i * 30}}
+                        class:highlighted={highlightedBar === i}
+                        on:mouseover={(event) => 
+                                        {handleHover(i);
+                                        onPointerMove(event, i);}}
+                        on:mouseout={(event) => 
+                                        {handleLeave();
+                                        onPointerLeave();}}
+                             
+                    />
+                {:else}
+                    <rect  
+                        x={xScale(data.state)}
+                        y={yScale(data.value)}
+                        width={xScale.bandwidth()}
+                        height={height - margin.bottom - yScale(data.value)}
+                        class:highlighted={highlightedBar === i}
+                        on:mouseover={(event) => 
+                            {handleHover(i);
+                            onPointerMove(event, i);}}
+                        on:mouseout={(event) => 
+                                        {handleLeave();
+                                        onPointerLeave();}}
+                        
+                    />
+                {/if}
+            {/each} 
 		</g>
         
         <g class="axis-title">
@@ -222,7 +274,7 @@
             <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
             
             <!-- Draw a line for the average -->
-            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right - 15}" y2="{yScale(avgValue)}" stroke="#f27a11" stroke-width="2" />
+            <line x1="{margin.left + 1}" y1="{yScale(avgValue)}" x2="{width - margin.right - 17}" y2="{yScale(avgValue)}" stroke="#f27a11" stroke-width="2" />
             <!-- Add a label for the average -->
             <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="#f27a11">Average:</text>
             <text x="{width - margin.right - 7}" y="{yScale(avgValue) + 15}" font-size="12" fill="#f27a11">{avgValue}</text>
@@ -240,10 +292,18 @@
         <!-- Subtitle -->
         <text x="50%" y="78" font-size="16" text-anchor="middle" class="subtitle">{subtitle}</text>
         
+        <!-- tooltip -->
+        {#if tooltipPt}
+            <g transform="translate({tooltipX},{tooltipY})">
+                <rect x="-70" y="-20" width="140" height="55" fill="white" stroke="black"></rect>
+                <text x="0" y="0" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="middle" dominant-baseline="central">{tooltipPt.state}</text>
+                <text x="0" y="20" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="middle" dominant-baseline="central">{tooltipPt.value}</text>
+            </g>
+        {/if}
     </svg>
 
-    <button style="position: absolute; bottom: 50px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
-    <button style="position: absolute; bottom: 50px; left: 84px;" on:click={() => update(currentData, false)}>Undo Sort</button>
+    <button style="position: absolute; bottom: 30px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
+    <button style="position: absolute; bottom: 30px; left: 84px;" on:click={() => update(currentData, false)}>Undo Sort</button>
 
 </main>
 
@@ -263,6 +323,10 @@
 
     .bars {
         fill: #a7a8a8;
+    }
+
+    .highlighted {
+        fill: #f27a11;
     }
 </style>
 
