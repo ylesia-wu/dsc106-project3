@@ -220,10 +220,10 @@
             <text transform={`translate(${margin.left / 2}, ${height / 2}) rotate(-90)`} text-anchor="middle">{y_label}</text>
             
             <!-- Draw a line for the average -->
-            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right - 15}" y2="{yScale(avgValue)}" stroke="red" stroke-width="2" />
+            <line x1="{margin.left}" y1="{yScale(avgValue)}" x2="{width - margin.right - 15}" y2="{yScale(avgValue)}" stroke="#f27a11" stroke-width="2" />
             <!-- Add a label for the average -->
-            <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="red">Average:</text>
-            <text x="{width - margin.right - 7}" y="{yScale(avgValue) + 15}" font-size="12" fill="red">{avgValue}</text>
+            <text x="{width - margin.right - 7}" y="{yScale(avgValue)}" font-size="12" fill="#f27a11">Average:</text>
+            <text x="{width - margin.right - 7}" y="{yScale(avgValue) + 15}" font-size="12" fill="#f27a11">{avgValue}</text>
         </g> 
         
         <g transform="translate(0, {height - margin.bottom})"
@@ -260,7 +260,7 @@
     }
 
     .bars {
-        fill: #292e30;
+        fill: #a7a8a8;
     }
 </style>
 
