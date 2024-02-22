@@ -229,7 +229,7 @@
                 line13 = false;     
                 circleX2 = 1194;
                 circleY2 = 130;
-                lineX2 = 1040;
+                lineX2 = 1060;
                 lineY2 = 170;
                 textX2 = 780;
                 textY2 = 110;
@@ -410,7 +410,7 @@
                 avgValue = 30.69;
                 circleX1 = 1061;
                 circleY1 = 400;
-                lineX1 = 910;
+                lineX1 = 940;
                 lineY1 = 410;
                 textX1 = 680;
                 textY1 = 400;
@@ -462,8 +462,8 @@
                 line13 = false;     
                 circleX2 = 620;
                 circleY2 = 510;
-                lineX2 = 480;
-                lineY2 = 380;
+                lineX2 = 495;
+                lineY2 = 385;
                 textX2 = 220;
                 textY2 = 280;
                 rectX2 = 205;
