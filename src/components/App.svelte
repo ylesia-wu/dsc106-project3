@@ -139,7 +139,7 @@
                 circleX1 = 92;
                 circleY1 = 460;
                 lineX1 = 250;
-                lineY1 = 160;
+                lineY1 = 165;
                 textX1 = 200;
                 textY1 = 100;
                 rectX1 = 220;
@@ -334,7 +334,7 @@
                 circleX1 = 269;
                 circleY1 = 460;
                 lineX1 = 250;
-                lineY1 = 160;
+                lineY1 = 165;
                 textX1 = 200;
                 textY1 = 100;
                 rectX1 = 220;
@@ -674,7 +674,7 @@
             <circle cx={circleX1} cy={circleY1} r="4" fill="black" />
             <line x1={circleX1} y1={circleY1} x2={lineX1} y2={lineY1} stroke="black" />
             <!-- Text -->
-            <text x={textX1} y={textY1} font-size="font-size" font-family="font-family">
+            <text x={textX1} y={textY1} font-size="font-size" font-family="Arial, sans-serif">
                 <tspan x={textX1} dy="1.2em">{annotationText11}</tspan>
                 <tspan x={textX1} dy="1.2em">{annotationText12}</tspan>
                 {#if line13}
@@ -690,7 +690,7 @@
             <circle cx={circleX2} cy={circleY2} r="4" fill="black" />
             <line x1={circleX2} y1={circleY2} x2={lineX2} y2={lineY2} stroke="black" />
             <!-- Text -->
-            <text x={textX2} y={textY2} font-size="font-size" font-family="font-family">
+            <text x={textX2} y={textY2} font-size="font-size" font-family="Arial, sans-serif">
                 <tspan x={textX2} dy="1.2em">{annotationText21}</tspan>
                 <tspan x={textX2} dy="1.2em">{annotationText22}</tspan>
                 <tspan x={textX2} dy="1.2em">{annotationText23}</tspan>
