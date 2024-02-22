@@ -212,6 +212,20 @@
         tooltipY = null;
     }
 
+    // Define a function to draw annotations
+    function drawAnnotation(circleX, circleY, textX, textY, annotationText) {
+        return `
+            <g>
+                <!-- Circle -->
+                <circle cx="${circleX}" cy="${circleY}" r="5" fill="red" />
+                <!-- Path -->
+                <path d="M${circleX},${circleY} L${textX},${textY}" stroke="black" fill="none" />
+                <!-- Text -->
+                <text x="${textX}" y="${textY}" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="start" dominant-baseline="central">${annotationText}</text>
+            </g>
+        `;
+    }
+
 </script>
 
 <main>
@@ -236,7 +250,7 @@
                         y={yScale(data.value)}
                         width={xScale.bandwidth()}
                         height={height - margin.bottom - yScale(data.value)}
-                        in:fly = {{x: -200, duration: 0, delay: i}}
+                        in:fly = {{x: -200, duration: 5, delay: i * 10}}
                         class:highlighted={highlightedBar === i}
                         on:mouseover={(event) => 
                                         {handleHover(i);
@@ -300,6 +314,10 @@
                 <text x="0" y="20" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="middle" dominant-baseline="central">{tooltipPt.value}</text>
             </g>
         {/if}
+
+        <!-- Draw annotations -->
+        {@html drawAnnotation(50, 50, 70, 70, "Annotation 1")}
+        {@html drawAnnotation(100, 100, 120, 120, "Annotation 2")}
     </svg>
 
     <button style="position: absolute; bottom: 30px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
