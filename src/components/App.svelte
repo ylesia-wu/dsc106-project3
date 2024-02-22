@@ -91,6 +91,41 @@
     let avgValue = 15.79;
     let sortClicked = false;
 
+    let circleX1 = 269;
+    let circleY1 = 460;
+    let lineX1 = 300;
+    let lineY1 = 160;
+    let textX1 = 230;
+    let textY1 = 100;
+    let rectX1 = 220;
+    let rectY1 = 90;
+    let height1 = 50;
+    let width1 = 150;
+    let annotationText11 = 'D.C. is known for its developed urban';
+    let annotationText12 = 'infrastructure, lower speed limits,';
+    let annotationText13 = 'and public transportation options.';
+    let line13 = true;
+
+    let circleX2 = null;
+    let circleY2 = null;
+    let lineX2 = null;
+    let lineY2 = null;
+    let textX2 = null;
+    let textY2 = null;
+    let rectX2 = null;
+    let rectY2 = null;
+    let height2 = null;
+    let width2 = null;
+    let annotationText21 = null;
+    let annotationText22 = null;
+    let annotationText23 = null;
+    let annotationText24 = null;
+    let annotationText25 = null;
+    let annotationText26 = null;
+    let annotation2 = false;
+    let line25 = false;
+    let line26 = false;
+
     function update(selectedData, sort) {
 
         sortClicked = sort;
@@ -101,11 +136,70 @@
                 y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
                 subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
                 avgValue = 15.79
+                circleX1 = 92;
+                circleY1 = 460;
+                lineX1 = 250;
+                lineY1 = 160;
+                textX1 = 200;
+                textY1 = 100;
+                rectX1 = 220;
+                rectY1 = 90;
+                height1 = 50;
+                width1 = 150;
+                annotationText11 = 'D.C. is known for its developed urban';
+                annotationText12 = 'infrastructure, lower speed limits,';
+                annotationText13 = 'and public transportation options.';
+                line13 = true;     
+                circleX2 = null;
+                circleY2 = null;
+                lineX2 = null;
+                lineY2 = null;
+                textX2 = null;
+                textY2 = null;
+                rectX2 = null;
+                rectY2 = null;
+                height2 = null;
+                width2 = null;
+                annotationText21 = null;
+                annotationText22 = null;
+                annotationText23 = null;
+                annotationText24 = null;
+                annotationText25 = null;
+                annotationText26 = null;
+                annotation2 = false;
+                line25 = false;
+                line26 = false;
             } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
                 currentData = speedingSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
                 avgValue = 31.73;
+                circleX1 = 1220;
+                circleY1 = 305;
+                lineX1 = 1100;
+                lineY1 = 400;
+                textX1 = 880;
+                textY1 = 400;
+                annotationText11 = 'As one might expect, on average, ';
+                annotationText12 = 'around one-third of the drivers involved';
+                annotationText13 = 'in fatal collisions were speeding.';
+                line13 = true;     
+                circleX2 = 1194;
+                circleY2 = 130;
+                lineX2 = 900;
+                lineY2 = 140;
+                textX2 = 680;
+                textY2 = 110;
+                annotationText21 = 'One possible factor contributing';
+                annotationText22 = 'to Hawaii’s higher percentage of';
+                annotationText23 = 'speeding drivers in fatal collisions';
+                annotationText24 = 'could be local tourism.';
+                annotationText25 = null;
+                annotationText26 = null;
+                annotation2 = true;
+                line25 = false;
+                line26 = false;
+                
             } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
                 currentData = alcoholSorted;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
@@ -130,11 +224,78 @@
                 y_label = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles';
                 subtitle = 'Number of Drivers Involved in Fatal Collisions Per Billion Miles in 50 US States';
                 avgValue = 15.79
+                circleX1 = 269;
+                circleY1 = 460;
+                lineX1 = 250;
+                lineY1 = 160;
+                textX1 = 200;
+                textY1 = 100;
+                rectX1 = 220;
+                rectY1 = 90;
+                height1 = 50;
+                width1 = 150;
+                annotationText11 = 'D.C. is known for its developed urban';
+                annotationText12 = 'infrastructure, lower speed limits,';
+                annotationText13 = 'and public transportation options.';
+                line13 = true;     
+                circleX2 = null;
+                circleY2 = null;
+                lineX2 = null;
+                lineY2 = null;
+                textX2 = null;
+                textY2 = null;
+                rectX2 = null;
+                rectY2 = null;
+                height2 = null;
+                width2 = null;
+                annotationText21 = null;
+                annotationText22 = null;
+                annotationText23 = null;
+                annotationText24 = null;
+                annotationText25 = null;
+                annotationText26 = null;
+                annotation2 = false;
+                line25 = false;
+                line26 = false;         
+
             } else if ((selectedData === speeding) | (selectedData === speedingSorted)) {
                 currentData = speeding;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Speeding (%)';
                 subtitle = 'Drivers Involved In Fatal Collisions Who Were Speeding (%) in 50 US States';
                 avgValue = 31.73;
+                circleX1 = 1220;
+                circleY1 = 305;
+                lineX1 = 1100;
+                lineY1 = 400;
+                textX1 = 880;
+                textY1 = 400;
+                rectX1 = 870;
+                rectY1 = 395;
+                height1 = 80;
+                width1 = 275;
+                annotationText11 = 'As one might expect, on average, ';
+                annotationText12 = 'around one-third of the drivers involved';
+                annotationText13 = 'in fatal collisions were speeding.';
+                line13 = true;     
+                circleX2 = 335;
+                circleY2 = 130;
+                lineX2 = 670;
+                lineY2 = 140;
+                textX2 = 680;
+                textY2 = 110;
+                rectX2 = null;
+                rectY2 = null;
+                height2 = null;
+                width2 = null;
+                annotationText21 = 'One possible factor contributing';
+                annotationText22 = 'to Hawaii’s higher percentage of';
+                annotationText23 = 'speeding drivers in fatal collisions';
+                annotationText24 = 'could be local tourism.';
+                annotationText25 = null;
+                annotationText26 = null;
+                annotation2 = true;
+                line25 = false;
+                line26 = false;
             } else if ((selectedData === alcohol) | (selectedData === alcoholSorted)) {
                 currentData = alcohol;
                 y_label = 'Drivers Involved In Fatal Collisions Who Were Alcohol-Impaired (%)';
@@ -212,20 +373,6 @@
         tooltipY = null;
     }
 
-    // Define a function to draw annotations
-    function drawAnnotation(circleX, circleY, textX, textY, annotationText) {
-        return `
-            <g>
-                <!-- Circle -->
-                <circle cx="${circleX}" cy="${circleY}" r="5" fill="red" />
-                <!-- Path -->
-                <path d="M${circleX},${circleY} L${textX},${textY}" stroke="black" fill="none" />
-                <!-- Text -->
-                <text x="${textX}" y="${textY}" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="start" dominant-baseline="central">${annotationText}</text>
-            </g>
-        `;
-    }
-
 </script>
 
 <main>
@@ -238,7 +385,7 @@
         <button on:click={() => update(noPrevious, false)}>No Previous Accident</button>
     </div>
 
-    <svg bind:this={svg} {width} {height} viewBox="0 0 {width} {height}"
+    <svg id="svgContainer" bind:this={svg} {width} {height} viewBox="0 0 {width} {height}"
     style="width: auto; max-height: 100%;">
     
         <!-- bars -->
@@ -314,10 +461,43 @@
                 <text x="0" y="20" font-size="14" font-weight="regular" font-family="Arial, sans-serif" text-anchor="middle" dominant-baseline="central">{tooltipPt.value}</text>
             </g>
         {/if}
+        
+        <g>
+            <rect x={rectX1} y={rectY1} width={width1} height={height1} fill="white" opacity="0.7" />
+            <!-- Circle -->
+            <circle cx={circleX1} cy={circleY1} r="4" fill="black" />
+            <line x1={circleX1} y1={circleY1} x2={lineX1} y2={lineY1} stroke="black" />
+            <!-- Text -->
+            <text x={textX1} y={textY1} font-size="font-size" font-family="font-family">
+                <tspan x={textX1} dy="1.2em">{annotationText11}</tspan>
+                <tspan x={textX1} dy="1.2em">{annotationText12}</tspan>
+                {#if line13}
+                <tspan x={textX1} dy="1.2em">{annotationText13}</tspan>
+                {/if}
+            </text>
+        </g>
 
-        <!-- Draw annotations -->
-        {@html drawAnnotation(50, 50, 70, 70, "Annotation 1")}
-        {@html drawAnnotation(100, 100, 120, 120, "Annotation 2")}
+        {#if annotation2}
+        <g>
+            <rect x={rectX2} y={rectY2} width={width2} height={height2} fill="white" opacity="0.7" />
+            <!-- Circle -->
+            <circle cx={circleX2} cy={circleY2} r="4" fill="black" />
+            <line x1={circleX2} y1={circleY2} x2={lineX2} y2={lineY2} stroke="black" />
+            <!-- Text -->
+            <text x={textX2} y={textY2} font-size="font-size" font-family="font-family">
+                <tspan x={textX2} dy="1.2em">{annotationText21}</tspan>
+                <tspan x={textX2} dy="1.2em">{annotationText22}</tspan>
+                <tspan x={textX2} dy="1.2em">{annotationText23}</tspan>
+                <tspan x={textX2} dy="1.2em">{annotationText24}</tspan>
+                {#if line25}
+                <tspan x={textX2} dy="1.2em">{annotationText25}</tspan>
+                {/if}
+                {#if line26}
+                <tspan x={textX2} dy="1.2em">{annotationText26}</tspan>
+                {/if}
+            </text>
+        </g>
+        {/if}
     </svg>
 
     <button style="position: absolute; bottom: 30px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
