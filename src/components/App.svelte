@@ -222,7 +222,7 @@
                 rectX1 = 670;
                 rectY1 = 395;
                 height1 = 60;
-                width1 = 263;
+                width1 = 280;
                 annotationText11 = 'Utah considers alcohol-impaired';
                 annotationText12 = 'driving to be a highly serious offense.';
                 annotationText13 = null
@@ -236,7 +236,7 @@
                 rectX2 = 775;
                 rectY2 = 105;
                 height2 = 115;
-                width2 = 275;
+                width2 = 285;
                 annotationText21 = 'One possible factor contributing to';
                 annotationText22 = 'Montana’s higher percentage of ';
                 annotationText23 = 'alcohol-impaired drivers in fatal';
@@ -417,7 +417,7 @@
                 rectX1 = 670;
                 rectY1 = 395;
                 height1 = 60;
-                width1 = 263;
+                width1 = 280;
                 annotationText11 = 'Utah considers alcohol-impaired';
                 annotationText12 = 'driving to be a highly serious offense.';
                 annotationText13 = null
