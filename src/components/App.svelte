@@ -704,6 +704,8 @@
             </text>
         </g>
         {/if}
+
+        <text x=980 y={height} font-size=9 font-family="Arial, sans-serif">https://github.com/fivethirtyeight/data/tree/master/bad-drivers</text>
     </svg>
 
     <button style="position: absolute; bottom: 30px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
