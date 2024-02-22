@@ -633,8 +633,8 @@
 		</g>
         
         <g class="axis-title">
-            <text transform={`translate(${width / 2}, ${height})`} text-anchor="middle">US States</text>
-            <!-- You can add tick marks for x-axis if needed -->
+            <text transform={`translate(${width / 2}, 647)`} text-anchor="middle">US States</text>
+
         </g>
 
         <g class="axis-title">
@@ -705,7 +705,9 @@
         </g>
         {/if}
 
-        <text x=980 y={height} font-size=9 font-family="Arial, sans-serif">https://github.com/fivethirtyeight/data/tree/master/bad-drivers</text>
+        <text x=984 y=635 font-size=9 font-family="Arial, sans-serif">Source: https://github.com/fivethirtyeight/data/tree/master/bad-drivers</text>
+        <text x=745 y=648 font-size=9 font-family="Arial, sans-serif">Documentation: https://docs.google.com/document/d/1olsv_yAsQsbMv5jiTC0BRgZODArjKyT2WzWKHmF0Ykk/edit?usp=sharing
+        </text>
     </svg>
 
     <button style="position: absolute; bottom: 30px; left: 40px;" on:click={() => update(currentData, true)}>Sort</button>
